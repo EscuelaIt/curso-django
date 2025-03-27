@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miembros del Grupo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .members-list {
+            margin-top: 20px;
+        }
+        .member-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Miembros del Grupo</h1>
+    
+    {% if group_id == 1 %}
+        <h2>Grupo: Administradores</h2>
+    {% elif group_id == 2 %}
+        <h2>Grupo: Editores</h2>
+    {% elif group_id == 3 %}
+        <h2>Grupo: Usuarios</h2>
+    {% else %}
+        <h2>Grupo no encontrado</h2>
+    {% endif %}
+    
+    <div class="members-list">
+        {% if group_id == 1 %}
+            <!-- Datos simulados para administradores -->
+            <div class="member-item">
+                <h3>admin1</h3>
+                <p>Email: admin1@example.com</p>
+                <p>Rol: Administrador Senior</p>
+            </div>
+            <div class="member-item">
+                <h3>admin2</h3>
+                <p>Email: admin2@example.com</p>
+                <p>Rol: Administrador Junior</p>
+            </div>
+        {% elif group_id == 2 %}
+            <!-- Datos simulados para editores -->
+            <div class="member-item">
+                <h3>editor1</h3>
+                <p>Email: editor1@example.com</p>
+                <p>Rol: Editor Senior</p>
+            </div>
+            <div class="member-item">
+                <h3>editor2</h3>
+                <p>Email: editor2@example.com</p>
+                <p>Rol: Editor Junior</p>
+            </div>
+            <div class="member-item">
+                <h3>editor3</h3>
+                <p>Email: editor3@example.com</p>
+                <p>Rol: Editor Junior</p>
+            </div>
+        {% elif group_id == 3 %}
+            <!-- Datos simulados para usuarios -->
+            <div class="member-item">
+                <h3>user1</h3>
+                <p>Email: user1@example.com</p>
+            </div>
+            <div class="member-item">
+                <h3>user2</h3>
+                <p>Email: user2@example.com</p>
+            </div>
+            <div class="member-item">
+                <h3>user3</h3>
+                <p>Email: user3@example.com</p>
+            </div>
+            <div class="member-item">
+                <h3>user4</h3>
+                <p>Email: user4@example.com</p>
+            </div>
+        {% else %}
+            <p>No se encontraron miembros para este grupo.</p>
+        {% endif %}
+    </div>
+    
+    <p><a href="{% url 'users:group_detail' group_id %}">Volver al detalle del grupo</a></p>
+    <p><a href="{% url 'users:group_list' %}">Volver a la lista de grupos</a></p>
+    <p><a href="{% url 'users:home' %}">Volver al inicio</a></p>
+</body>
+</html> 

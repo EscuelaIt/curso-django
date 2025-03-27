@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Grupo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .group-details {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalle de Grupo</h1>
+    
+    <div class="group-details">
+        {% if group_id == 1 %}
+            <h2>Administradores</h2>
+            <p>Grupo de usuarios con privilegios administrativos</p>
+            <p>Permisos: Acceso total al sistema</p>
+            <p>Creado: 01/01/2023</p>
+        {% elif group_id == 2 %}
+            <h2>Editores</h2>
+            <p>Grupo de usuarios con privilegios de edición</p>
+            <p>Permisos: Crear, editar y eliminar contenido</p>
+            <p>Creado: 15/01/2023</p>
+        {% elif group_id == 3 %}
+            <h2>Usuarios</h2>
+            <p>Grupo general de usuarios del sistema</p>
+            <p>Permisos: Solo lectura</p>
+            <p>Creado: 30/01/2023</p>
+        {% else %}
+            <p>Grupo no encontrado</p>
+        {% endif %}
+    </div>
+    
+    <p><a href="{% url 'users:group_members' group_id %}">Ver miembros</a></p>
+    <p><a href="{% url 'users:group_list' %}">Volver a la lista de grupos</a></p>
+    <p><a href="{% url 'users:home' %}">Volver al inicio</a></p>
+</body>
+</html> 

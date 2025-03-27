@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Grupos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .group-list {
+            margin-top: 20px;
+        }
+        .group-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Grupos</h1>
+    
+    <div class="group-list">
+        <!-- Simulamos una lista de grupos para el ejemplo -->
+        <div class="group-item">
+            <h3>Administradores</h3>
+            <p>Grupo de usuarios con privilegios administrativos</p>
+            <p>
+                <a href="{% url 'users:group_detail' 1 %}">Ver detalle</a> | 
+                <a href="{% url 'users:group_members' 1 %}">Ver miembros</a>
+            </p>
+        </div>
+        
+        <div class="group-item">
+            <h3>Editores</h3>
+            <p>Grupo de usuarios con privilegios de edición</p>
+            <p>
+                <a href="{% url 'users:group_detail' 2 %}">Ver detalle</a> | 
+                <a href="{% url 'users:group_members' 2 %}">Ver miembros</a>
+            </p>
+        </div>
+        
+        <div class="group-item">
+            <h3>Usuarios</h3>
+            <p>Grupo general de usuarios del sistema</p>
+            <p>
+                <a href="{% url 'users:group_detail' 3 %}">Ver detalle</a> | 
+                <a href="{% url 'users:group_members' 3 %}">Ver miembros</a>
+            </p>
+        </div>
+    </div>
+    
+    <p><a href="{% url 'users:home' %}">Volver al inicio</a></p>
+</body>
+</html> 

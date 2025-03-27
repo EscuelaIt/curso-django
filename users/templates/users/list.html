@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .user-list {
+            margin-top: 20px;
+        }
+        .user-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    
+    <div class="user-list">
+        {% if users %}
+            {% for user in users %}
+                <div class="user-item">
+                    <h3>{{ user.username }}</h3>
+                    <p>{{ user.email }}</p>
+                    <p>
+                        <a href="{% url 'users:user_detail' user.id %}">Ver detalle</a> | 
+                        <a href="{% url 'users:user_profile' user.username %}">Ver perfil</a>
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No hay usuarios para mostrar.</p>
+        {% endif %}
+    </div>
+    
+    <p><a href="{% url 'users:user_create' %}">Crear nuevo usuario</a></p>
+    <p><a href="{% url 'users:home' %}">Volver al inicio</a></p>
+</body>
+</html> 
