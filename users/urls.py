@@ -1,35 +1,30 @@
 from django.urls import path, re_path, register_converter
-from . import views
-from . import converters  # Importaremos los conversores personalizados que crearemos
+from . import views, converters
 
-# Registramos un conversor personalizado
+# Registrar conversores personalizados
 register_converter(converters.YearConverter, 'year')
 
 app_name = 'users'
 
 urlpatterns = [
-    # Vista básica con función
+    # Vistas básicas
     path('', views.home, name='home'),
+    path('users/', views.UserListView.as_view(), name='user_list'),
+    path('users/create/', views.UserCreateView.as_view(), name='user_create'),
+    path('users/<int:user_id>/', views.user_detail, name='user_detail'),
+    path('users/profile/<str:username>/', views.user_profile, name='user_profile'),
+    path('users/archive/<str:username>/<int:user_id>/', views.user_archive, name='user_archive'),
     
-    # URLs con parámetros en la ruta
-    path('detail/<int:user_id>/', views.user_detail, name='user_detail'),
-    path('profile/<str:username>/', views.user_profile, name='user_profile'),
+    # Búsqueda y conversores personalizados
+    path('users/history/<year:year>/', views.user_history, name='user_history'),
+    re_path(r'^users/search/(?P<term>\w+)/$', views.user_search, name='user_search'),
     
-    # Vista basada en clase
-    path('list/', views.UserListView.as_view(), name='user_list'),
-    path('create/', views.UserCreateView.as_view(), name='user_create'),
-    
-    # URL con múltiples parámetros
-    path('archive/<str:username>/<int:user_id>/', views.user_archive, name='user_archive'),
-    
-    # URL con conversor personalizado - Temporalmente usando conversor int estándar
-    path('history/<int:year>/', views.user_history, name='user_history'),
-    
-    # URL con expresión regular
-    re_path(r'^search/(?P<term>\w+)/$', views.user_search, name='user_search'),
-    
-    # URLs anidadas para sub-recursos
+    # URLs anidadas para grupos
     path('groups/', views.group_list, name='group_list'),
     path('groups/<int:group_id>/', views.group_detail, name='group_detail'),
     path('groups/<int:group_id>/members/', views.group_members, name='group_members'),
+    
+    # Páginas de demostración de templates
+    path('template-demo/', views.template_demo, name='template_demo'),
+    path('custom-tags-demo/', views.custom_tags_demo, name='custom_tags_demo'),
 ] 

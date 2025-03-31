@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, DetailView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from .models import User
+import datetime
 
 # Vista de función básica
 def home(request):
@@ -114,3 +115,37 @@ def group_members(request, group_id):
     Vista que muestra los miembros de un grupo específico
     """
     return render(request, 'users/groups/members.html', {'group_id': group_id})
+
+# Vistas para demostración de templates
+def template_demo(request):
+    """
+    Vista que muestra ejemplos de diferentes características de los templates de Django
+    """
+    context = {
+        'name': 'Jean Pierre',
+        'user': {
+            'username': 'manduinca',
+            'email': 'manduinca@escuela.it',
+            'first_name': 'Jean',
+            'last_name': 'Mandujano',
+            'get_full_name': 'Jean Mandujano'
+        },
+        'description': 'Esta es una descripción larga para demostrar el filtro truncatechars.',
+        'date_example': datetime.datetime.now(),
+        'number': 10,
+        'tags': ['Django', 'Templates', 'Python', 'Web'],
+        'items': ['Elemento 1', 'Elemento 2', 'Elemento 3', 'Elemento 4'],
+        'html_content': '<strong>Este texto está en negrita</strong> y <em>este en cursiva</em>.',
+    }
+    return render(request, 'users/template_demo.html', context)
+
+def custom_tags_demo(request):
+    """
+    Vista que muestra ejemplos de tags y filtros personalizados
+    """
+    context = {
+        'nombre': 'Usuario',
+        'frutas': ['Manzana', 'Banana', 'Naranja', 'Pera', 'Uva'],
+        'colores': ['Rojo', 'Azul', 'Verde', 'Amarillo']
+    }
+    return render(request, 'users/custom_tags_demo.html', context)

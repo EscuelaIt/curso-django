@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django Template Demo{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+        nav ul li a:hover {
+            color: #007bff;
+        }
+        main {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .user-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        .empty-list {
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            background-color: #f5f5f5;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1>{% block header %}Django Template Demo{% endblock %}</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'users:home' %}">Inicio</a></li>
+                <li><a href="{% url 'users:user_list' %}">Usuarios</a></li>
+                <li><a href="{% url 'users:user_create' %}">Crear Usuario</a></li>
+                <li><a href="{% url 'users:group_list' %}">Grupos</a></li>
+                <li><a href="{% url 'users:template_demo' %}">Demo Templates</a></li>
+                <li><a href="{% url 'users:custom_tags_demo' %}">Demo Tags</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        {% block content %}
+        <!-- El contenido principal se reemplazará por los templates hijos -->
+        {% endblock %}
+    </main>
+    
+    <footer>
+        {% block footer %}
+        <p>Django Templates Demo &copy; {% now "Y" %}</p>
+        {% endblock %}
+    </footer>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

@@ -1,0 +1,10 @@
+<div class="user-card">
+    <h3>{{ user.username }}</h3>
+    <div>Email: {{ user.email }}</div>
+    {% if user.first_name or user.last_name %}
+        <div>Nombre: {{ user.first_name }} {{ user.last_name }}</div>
+    {% endif %}
+    <div>
+        <small>Este es un template parcial reutilizable para mostrar información de usuario</small>
+    </div>
+</div> 

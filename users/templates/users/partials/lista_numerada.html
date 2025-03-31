@@ -1,0 +1,8 @@
+{% if titulo %}<h4>{{ titulo }}</h4>{% endif %}
+<ol>
+    {% for item in items %}
+        <li>{{ item }}</li>
+    {% empty %}
+        <li><em>No hay elementos para mostrar</em></li>
+    {% endfor %}
+</ol> 

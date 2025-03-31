@@ -1,52 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Usuarios</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            color: #333;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        .user-list {
-            margin-top: 20px;
-        }
-        .user-card {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background-color: #f9f9f9;
-        }
-        .user-email {
-            color: #666;
-            margin-top: 5px;
-        }
-        .user-bio {
-            margin-top: 10px;
-        }
-        .empty-list {
-            border: 1px dashed #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            text-align: center;
-            color: #888;
-            background-color: #f5f5f5;
-        }
-    </style>
-</head>
-<body>
-    <h1>Gestión de Usuarios</h1>
+{% extends 'users/base.html' %}
+
+{% block title %}Inicio - Gestión de Usuarios{% endblock %}
+
+{% block header %}Gestión de Usuarios{% endblock %}
+
+{% block content %}
+    <h2>Bienvenido al Sistema de Gestión de Usuarios</h2>
     
     <p>Total de usuarios activos: <strong>{{ total_users }}</strong></p>
     
@@ -70,5 +29,4 @@
             </div>
         {% endif %}
     </div>
-</body>
-</html> 
+{% endblock %} 

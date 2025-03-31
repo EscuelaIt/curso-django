@@ -1,0 +1,168 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block title %}Demostración de Templates Django{% endblock %}
+
+{% block header %}Características de Templates Django{% endblock %}
+
+{% block extra_css %}
+<style>
+    .example {
+        background-color: #f0f8ff;
+        border-left: 4px solid #007bff;
+        padding: 10px 15px;
+        margin: 15px 0;
+    }
+    .category {
+        margin-top: 25px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+    code {
+        background-color: #f5f5f5;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-family: monospace;
+    }
+    .result {
+        font-weight: bold;
+        color: #d63384;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h2>Demostración de Templates en Django</h2>
+    <p>Esta página muestra diferentes características y funcionalidades de los templates en Django.</p>
+
+    <!-- 1. Variables y Acceso a Atributos -->
+    <div class="category">
+        <h3>1. Variables y Acceso a Atributos</h3>
+        
+        <div class="example">
+            <p><code>{{ name }}</code> → <span class="result">{{ name }}</span></p>
+            <p><code>{{ user.username }}</code> → <span class="result">{{ user.username }}</span></p>
+            <p><code>{{ user.get_full_name }}</code> → <span class="result">{{ user.get_full_name }}</span></p>
+        </div>
+    </div>
+
+    <!-- 2. Filtros -->
+    <div class="category">
+        <h3>2. Filtros</h3>
+        
+        <div class="example">
+            <p><code>{{ name|upper }}</code> → <span class="result">{{ name|upper }}</span></p>
+            <p><code>{{ name|lower }}</code> → <span class="result">{{ name|lower }}</span></p>
+            <p><code>{{ name|title }}</code> → <span class="result">{{ name|title }}</span></p>
+            <p><code>{{ name|length }}</code> → <span class="result">{{ name|length }}</span></p>
+            <p><code>{{ description|truncatechars:20 }}</code> → <span class="result">{{ description|truncatechars:20 }}</span></p>
+            <p><code>{{ date_example|date:"d/m/Y" }}</code> → <span class="result">{{ date_example|date:"d/m/Y" }}</span></p>
+            <p><code>{{ number|add:10 }}</code> → <span class="result">{{ number|add:10 }}</span></p>
+            <p><code>{{ number|divisibleby:2 }}</code> → <span class="result">{{ number|divisibleby:2 }}</span></p>
+            <p><code>{{ tags|join:", " }}</code> → <span class="result">{{ tags|join:", " }}</span></p>
+            <p><code>{{ description|default:"No hay descripción disponible" }}</code> → <span class="result">{{ description|default:"No hay descripción disponible" }}</span></p>
+        </div>
+    </div>
+
+    <!-- 3. Tags -->
+    <div class="category">
+        <h3>3. Tags (Etiquetas)</h3>
+        
+        <div class="example">
+            <h4>3.1. for</h4>
+            <p>Lista de elementos:</p>
+            <ul>
+                {% for item in items %}
+                    <li>{% if forloop.first %}<strong>{% endif %}
+                        Item {{ forloop.counter }}: {{ item }}
+                        {% if forloop.last %} (último elemento){% endif %}
+                    {% if forloop.first %}</strong>{% endif %}</li>
+                {% empty %}
+                    <li>No hay elementos disponibles</li>
+                {% endfor %}
+            </ul>
+
+            <h4>3.2. if, elif, else</h4>
+            {% if number > 10 %}
+                <p>El número es mayor que 10.</p>
+            {% elif number == 10 %}
+                <p>El número es exactamente 10.</p>
+            {% else %}
+                <p>El número es menor que 10.</p>
+            {% endif %}
+
+            <h4>3.3. with</h4>
+            {% with total=items|length %}
+                <p>Hay un total de {{ total }} elementos.</p>
+            {% endwith %}
+
+            <h4>3.4. url</h4>
+            <p>URL a detalle de usuario: <code>{% url 'users:user_detail' user_id=1 %}</code></p>
+            <p>URL con parámetro del usuario actual: <code>{% url 'users:user_profile' username=name|lower %}</code></p>
+
+            <h4>3.5. now</h4>
+            <p>La fecha y hora actuales: <code>{% now "j F Y, H:i" %}</code></p>
+        </div>
+    </div>
+
+    <!-- 4. Comentarios -->
+    <div class="category">
+        <h3>4. Comentarios</h3>
+        
+        <div class="example">
+            <p>Comentario de una línea: <code>{# Este comentario no aparecerá en el HTML renderizado #}</code></p>
+            <p>Comentario de múltiples líneas: 
+<code>{% comment %}
+Este es un comentario
+que puede abarcar
+múltiples líneas
+{% endcomment %}</code></p>
+        </div>
+    </div>
+
+    <!-- 5. Inclusión de Templates -->
+    <div class="category">
+        <h3>5. Inclusión de Templates</h3>
+        
+        <div class="example">
+            <h4>5.1. include</h4>
+            <div style="border: 1px dotted #999; padding: 10px; margin-top: 10px;">
+                {% include "users/partials/user_card.html" with user=user only %}
+            </div>
+            <p><small>El código anterior incluye otro template reutilizable</small></p>
+        </div>
+    </div>
+
+    <!-- 6. Herencia de Templates -->
+    <div class="category">
+        <h3>6. Herencia de Templates</h3>
+        
+        <div class="example">
+            <p>Este archivo extiende la plantilla base utilizando:</p>
+            <code>{% verbatim %}{% extends 'users/base.html' %}{% endverbatim %}</code>
+            <p>Y luego sobrescribe los bloques:</p>
+            <code>{% verbatim %}{% block title %}Título{% endblock %}{% endverbatim %}</code><br>
+            <code>{% verbatim %}{% block content %}...contenido...{% endblock %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- 7. Escape de HTML -->
+    <div class="category">
+        <h3>7. Escape de HTML y Safe</h3>
+        
+        <div class="example">
+            <p>Contenido con HTML (escapado por defecto): <code>{{ html_content }}</code> → <span class="result">{{ html_content }}</span></p>
+            <p>Contenido con HTML (sin escapar): <code>{{ html_content|safe }}</code> → <span class="result">{{ html_content|safe }}</span></p>
+            <p>Usando autoescape:
+<code>{% verbatim %}{% autoescape off %}
+    {{ html_content }}
+{% endautoescape %}{% endverbatim %}</code></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    console.log('Esta página demuestra las características de los templates de Django');
+</script>
+{% endblock %} 
