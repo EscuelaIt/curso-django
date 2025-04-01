@@ -1,0 +1,49 @@
+{% extends 'users/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block header %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="post-detail">
+        <div class="post-meta">
+            <p>
+                Por <a href="{% url 'users:user_profile' post.author.username %}">{{ post.author.username }}</a>
+                el {{ post.created_at|date:"d/m/Y H:i" }}
+            </p>
+            {% if post.published_at %}
+                <p>Publicado el {{ post.published_at|date:"d/m/Y H:i" }}</p>
+            {% endif %}
+        </div>
+
+        <div class="post-content">
+            {{ post.content|linebreaks }}
+        </div>
+
+        <div class="post-actions">
+            {% if user in post.likes.all %}
+                <a href="{% url 'users:post_unlike' post.id %}" class="btn">Ya no me gusta</a>
+            {% else %}
+                <a href="{% url 'users:post_like' post.id %}" class="btn">Me gusta</a>
+            {% endif %}
+
+            {% if post.author == user %}
+                <a href="{% url 'users:post_update' post.id %}" class="btn">Editar</a>
+                <a href="{% url 'users:post_delete' post.id %}" class="btn btn-danger">Eliminar</a>
+            {% endif %}
+        </div>
+
+        <div class="post-likes">
+            <h3>Me gusta ({{ post.likes.count }})</h3>
+            {% if post.likes.all %}
+                <ul>
+                    {% for user in post.likes.all %}
+                        <li>{{ user.username }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Nadie ha dado me gusta aún.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %} 

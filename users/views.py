@@ -1,9 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import User
+from django.contrib import messages
+from .models import User, Post
 import datetime
 
 # Vista de función básica
@@ -97,24 +98,115 @@ def user_search(request, term):
         'term': term
     })
 
-# Vistas para grupos (ejemplo de URLs anidadas)
-def group_list(request):
+# Vistas para posts
+class PostListView(ListView):
     """
-    Vista que muestra todos los grupos
+    Vista basada en clase que muestra una lista de posts
     """
-    return render(request, 'users/groups/list.html', {})
+    model = Post
+    template_name = 'users/posts/list.html'
+    context_object_name = 'posts'
+    
+    def get_queryset(self):
+        return Post.objects.filter(is_published=True)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Lista de Posts'
+        return context
 
-def group_detail(request, group_id):
+class PostCreateView(CreateView):
     """
-    Vista que muestra los detalles de un grupo específico
+    Vista basada en clase para crear un nuevo post
     """
-    return render(request, 'users/groups/detail.html', {'group_id': group_id})
+    model = Post
+    template_name = 'users/posts/create.html'
+    fields = ['title', 'content']
+    success_url = reverse_lazy('users:post_list')
 
-def group_members(request, group_id):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, 'Debes iniciar sesión para crear un post.')
+            return redirect('users:post_list')
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        try:
+            # Get our custom User instance
+            user = User.objects.get(username=self.request.user.username)
+            form.instance.author = user
+            form.instance.is_published = True  # Publicar automáticamente
+            messages.success(self.request, 'Post creado exitosamente.')
+            return super().form_valid(form)
+        except User.DoesNotExist:
+            messages.error(self.request, 'Error: Usuario no encontrado.')
+            return self.form_invalid(form)
+
+def post_detail(request, post_id):
     """
-    Vista que muestra los miembros de un grupo específico
+    Vista que muestra los detalles de un post específico
     """
-    return render(request, 'users/groups/members.html', {'group_id': group_id})
+    post = get_object_or_404(Post, id=post_id)
+    return render(request, 'users/posts/detail.html', {'post': post})
+
+class PostUpdateView(UpdateView):
+    """
+    Vista basada en clase para actualizar un post existente
+    """
+    model = Post
+    template_name = 'users/posts/update.html'
+    fields = ['title', 'content']
+    success_url = reverse_lazy('users:post_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Post actualizado exitosamente.')
+        return super().form_valid(form)
+
+class PostDeleteView(DeleteView):
+    """
+    Vista basada en clase para eliminar un post
+    """
+    model = Post
+    template_name = 'users/posts/delete.html'
+    success_url = reverse_lazy('users:post_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Post eliminado exitosamente.')
+        return super().delete(request, *args, **kwargs)
+
+def post_like(request, post_id):
+    """
+    Vista para dar like a un post
+    """
+    if not request.user.is_authenticated:
+        messages.error(request, 'Debes iniciar sesión para dar like a un post.')
+        return redirect('admin:index')
+        
+    try:
+        post = get_object_or_404(Post, id=post_id)
+        user = User.objects.get(username=request.user.username)
+        post.like(user)
+        messages.success(request, 'Te gusta este post.')
+    except User.DoesNotExist:
+        messages.error(request, 'Error: Usuario no encontrado.')
+    return redirect('users:post_detail', post_id=post_id)
+
+def post_unlike(request, post_id):
+    """
+    Vista para quitar like de un post
+    """
+    if not request.user.is_authenticated:
+        messages.error(request, 'Debes iniciar sesión para quitar like de un post.')
+        return redirect('users:post_detail', post_id=post_id)
+        
+    try:
+        post = get_object_or_404(Post, id=post_id)
+        user = User.objects.get(username=request.user.username)
+        post.unlike(user)
+        messages.success(request, 'Ya no te gusta este post.')
+    except User.DoesNotExist:
+        messages.error(request, 'Error: Usuario no encontrado.')
+    return redirect('users:post_detail', post_id=post_id)
 
 # Vistas para demostración de templates
 def template_demo(request):

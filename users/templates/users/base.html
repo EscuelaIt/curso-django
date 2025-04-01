@@ -58,6 +58,192 @@
             color: #888;
             background-color: #f5f5f5;
         }
+
+        /* Estilos para posts */
+        .post-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-card h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .post-card h2 a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .post-card h2 a:hover {
+            color: #007bff;
+        }
+
+        .post-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .post-excerpt {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .post-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .post-detail {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-content {
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .post-likes {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .post-likes ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .post-likes li {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+
+        /* Estilos para formularios */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .delete-confirmation {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-preview {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        /* Estilos para mensajes */
+        .messages {
+            margin-bottom: 20px;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+        }
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .alert-error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+        }
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
@@ -69,7 +255,8 @@
                 <li><a href="{% url 'users:home' %}">Inicio</a></li>
                 <li><a href="{% url 'users:user_list' %}">Usuarios</a></li>
                 <li><a href="{% url 'users:user_create' %}">Crear Usuario</a></li>
-                <li><a href="{% url 'users:group_list' %}">Grupos</a></li>
+                <li><a href="{% url 'users:post_list' %}">Posts</a></li>
+                <li><a href="{% url 'users:post_create' %}">Crear Post</a></li>
                 <li><a href="{% url 'users:template_demo' %}">Demo Templates</a></li>
                 <li><a href="{% url 'users:custom_tags_demo' %}">Demo Tags</a></li>
             </ul>
@@ -77,6 +264,15 @@
     </header>
     
     <main>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
         {% block content %}
         <!-- El contenido principal se reemplazará por los templates hijos -->
         {% endblock %}

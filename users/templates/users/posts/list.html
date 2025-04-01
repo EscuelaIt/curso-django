@@ -1,0 +1,32 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Lista de Posts{% endblock %}
+
+{% block header %}Lista de Posts{% endblock %}
+
+{% block content %}
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post-card">
+                <h2><a href="{% url 'users:post_detail' post.id %}">{{ post.title }}</a></h2>
+                <p class="post-meta">
+                    Por <a href="{% url 'users:user_profile' post.author.username %}">{{ post.author.username }}</a>
+                    el {{ post.created_at|date:"d/m/Y H:i" }}
+                </p>
+                <p class="post-excerpt">{{ post.content|truncatewords:50 }}</p>
+                <div class="post-actions">
+                    <a href="{% url 'users:post_detail' post.id %}" class="btn">Leer más</a>
+                    {% if post.author == user %}
+                        <a href="{% url 'users:post_update' post.id %}" class="btn">Editar</a>
+                        <a href="{% url 'users:post_delete' post.id %}" class="btn btn-danger">Eliminar</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-list">
+            <p>No hay posts publicados aún.</p>
+            <a href="{% url 'users:post_create' %}" class="btn">Crear primer post</a>
+        </div>
+    {% endif %}
+{% endblock %} 

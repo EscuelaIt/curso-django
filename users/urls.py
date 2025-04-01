@@ -19,10 +19,14 @@ urlpatterns = [
     path('users/history/<year:year>/', views.user_history, name='user_history'),
     re_path(r'^users/search/(?P<term>\w+)/$', views.user_search, name='user_search'),
     
-    # URLs anidadas para grupos
-    path('groups/', views.group_list, name='group_list'),
-    path('groups/<int:group_id>/', views.group_detail, name='group_detail'),
-    path('groups/<int:group_id>/members/', views.group_members, name='group_members'),
+    # URLs para posts
+    path('posts/', views.PostListView.as_view(), name='post_list'),
+    path('posts/create/', views.PostCreateView.as_view(), name='post_create'),
+    path('posts/<int:post_id>/', views.post_detail, name='post_detail'),
+    path('posts/<int:pk>/edit/', views.PostUpdateView.as_view(), name='post_update'),
+    path('posts/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post_delete'),
+    path('posts/<int:post_id>/like/', views.post_like, name='post_like'),
+    path('posts/<int:post_id>/unlike/', views.post_unlike, name='post_unlike'),
     
     # Páginas de demostración de templates
     path('template-demo/', views.template_demo, name='template_demo'),

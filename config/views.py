@@ -92,14 +92,14 @@ def welcome(request):
             <h2>Ejemplos de URLs y vistas:</h2>
             <ul>
                 <li><a href="/users/">Home de usuarios</a></li>
-                <li><a href="/users/list/">Lista de usuarios</a></li>
-                <li><a href="/users/create/">Crear usuario</a></li>
-                <li><a href="/users/detail/1/">Detalle de usuario</a></li>
-                <li><a href="/users/profile/admin/">Perfil de usuario</a></li>
-                <li><a href="/users/archive/2023/12/">Archivo por año/mes</a></li>
-                <li><a href="/users/history/2023/">Historial por año</a></li>
-                <li><a href="/users/search/admin/">Búsqueda</a></li>
-                <li><a href="/users/groups/">Grupos</a></li>
+                <li><a href="/users/users/">Lista de usuarios</a></li>
+                <li><a href="/users/users/create/">Crear usuario</a></li>
+                <li><a href="/users/users/1/">Detalle de usuario</a></li>
+                <li><a href="/users/users/profile/admin/">Perfil de usuario</a></li>
+                <li><a href="/users/users/archive/admin/1/">Archivo de usuario</a></li>
+                <li><a href="/users/users/history/2023/">Historial por año</a></li>
+                <li><a href="/users/users/search/admin/">Búsqueda</a></li>
+                <li><a href="/users/posts/">Posts</a></li>
             </ul>
             
             <div class="footer">
