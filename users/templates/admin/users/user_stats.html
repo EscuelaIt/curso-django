@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Estadísticas de Usuarios</h1>
+    
+    <div class="module">
+        <h2>Resumen</h2>
+        <table>
+            <tr>
+                <th>Total de Usuarios</th>
+                <td>{{ total_users }}</td>
+            </tr>
+            <tr>
+                <th>Usuarios Activos</th>
+                <td>{{ active_users }}</td>
+            </tr>
+            <tr>
+                <th>Usuarios con Posts</th>
+                <td>{{ users_with_posts }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %} 
